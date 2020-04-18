@@ -1,7 +1,7 @@
 
 #include "guy.h"
 
-const String moods[5] = {"HAPPY", "HUNGRY", "BORED", "SAD", "TIRED"};
+const String moods[7] = {"HAPPY", "HUNGRY", "BORED", "SAD", "TIRED", "SICK", "DEAD"};
 
 unsigned long hungerPreviousMillis = 0;
 const long hungerInterval = 1000;
@@ -11,6 +11,9 @@ const long boredomInterval = 2000;
 
 unsigned long sadnessPreviousMillis = 0;
 const long sadnessInterval = 3000;
+
+unsigned long deathPreviousMillis = 0;
+const long deathInterval = 3000;
 
 int MAX_HUNGER = 10;
 int MIN_HUNGER = 0;
@@ -23,6 +26,10 @@ int boredom = MIN_BOREDOM;
 int MAX_SADNESS = 10;
 int MIN_SADNESS = 0;
 int sadness = MIN_SADNESS;
+
+int MAX_DEATH = 10;
+int MIN_DEATH = 0;
+int death = MIN_DEATH;
 
 Guy::Guy(Arduboy2 arduboy)
 {
@@ -38,6 +45,9 @@ void Guy::draw() {
 
   _arduboy.setCursor(0, 20);
   _arduboy.print(sadness);
+
+  _arduboy.setCursor(0, 30);
+  _arduboy.print(death);
   
   _arduboy.setCursor(0, 40);
   _arduboy.print(moods[_mood]);
@@ -84,8 +94,20 @@ void Guy::update() {
   } else if (boredom > 5) {
     _mood = 2;
   } else if (hunger == MAX_HUNGER && sadness == MAX_SADNESS) {
-    //die...
+    _mood = 5;
+    
+    if (currentMillis - deathPreviousMillis >= deathInterval) {
+      if (death < MAX_DEATH) {
+         death++;
+      }
+  
+      deathPreviousMillis = currentMillis;
+    }
+
+  } else if (death == MAX_DEATH) {
+    //died...
   } else {
+    death = 0;
     _mood = 0;
   }
 }

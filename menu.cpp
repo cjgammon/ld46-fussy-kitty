@@ -17,6 +17,8 @@ void Menu::next()
 {
   if (current < menuitemcount - 1) {
     current ++;
+  } else {
+    current = 0;
   }
 }
 
@@ -24,6 +26,8 @@ void Menu::prev()
 {
   if (current > 0) {
     current --;
+  } else {
+    current = menuitemcount - 1;
   }
 }
 
@@ -35,14 +39,13 @@ int Menu::value()
 void Menu::draw()
 {
   _arduboy.fillRect(0, menuY - 3, 128, 1);
+  
+  int menuX = (128 / 2) - 20;
+  
+  _arduboy.setCursor(menuX, menuY);
+  _arduboy.print(menuitems[current]);
 
-  int menuX = 3;
-  for (int i = 0; i < menuitemcount; i++) {
-    if (i == current) {
-      _arduboy.fillRect(menuX - 2, menuY - 1, 1, 10);
-    }
-    _arduboy.setCursor(menuX, menuY);
-    _arduboy.print(menuitems[i]);
-    menuX += 30;
-  }
+  //arrows
+  _arduboy.fillTriangle(0, menuY + 3, 3, menuY, 3, menuY + 6);
+  _arduboy.fillTriangle(127, menuY + 3, 127 - 3, menuY, 127 - 3, menuY + 6);
 }
