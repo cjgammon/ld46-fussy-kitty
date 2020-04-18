@@ -5,7 +5,7 @@
 const int menuitemcount = 3;
 const String menuitems[menuitemcount] = {"FEED", "PLAY", "PET"};
 
-int menuY = 59;
+int menuY = 55;
 int current = 0;
 
 Menu::Menu(Arduboy2 arduboy)
@@ -34,7 +34,9 @@ int Menu::value()
 
 void Menu::draw()
 {
-  int menuX = 10;
+  _arduboy.fillRect(0, menuY - 3, 128, 1);
+
+  int menuX = 3;
   for (int i = 0; i < menuitemcount; i++) {
     if (i == current) {
       _arduboy.fillRect(menuX - 2, menuY - 1, 1, 10);

@@ -12,17 +12,17 @@ version 2.1 of the License, or (at your option) any later version.
 */
 
 #include <Arduboy2.h>
-#include "sprites.h"
 
-// make an instance of arduboy used for many functions
-Arduboy2 arduboy;
-
+#include "guy.h"
 #include "menu.h"
+
+Arduboy2 arduboy;
 
 int playerx = 5;
 int playery = 10;
 
-Menu mainmenu = Menu(arduboy);
+Menu _mainmenu = Menu(arduboy);
+Guy _character = Guy(arduboy);
 
 int action = -1;
 
@@ -39,20 +39,22 @@ void loop() {
   arduboy.pollButtons();
 
   if(arduboy.justPressed(LEFT_BUTTON)) {
-      mainmenu.prev();
+      _mainmenu.prev();
   }
   
   if(arduboy.justPressed(RIGHT_BUTTON)) {
-      mainmenu.next();
+      _mainmenu.next();
   }
   
   if (arduboy.justPressed(A_BUTTON)) {
-    action = mainmenu.value();
+    action = _mainmenu.value();
+    _character.apply(action);
   }
 
-  Sprites::drawExternalMask(playerx, playery, guy1, guy1_mask, 0, 0);
+  _character.update();
 
-  mainmenu.draw();
+  _character.draw();
+  _mainmenu.draw();
 
   arduboy.display();
 }
