@@ -2,8 +2,8 @@
 #include <WString.h>
 #include "menu.h"
 
-const int menuitemcount = 3;
-const String menuitems[menuitemcount] = {"FEED", "PLAY", "PET"};
+const int menuitemcount = 9;
+const String menuitems[menuitemcount] = {"FEED", "PLAY", "PET", "JOKE", "TALK", "TEACH", "IGNORE", "VACCINATE", "BATHE"};
 
 int menuY = 55;
 int current = 0;
@@ -40,7 +40,7 @@ void Menu::draw()
 {
   _arduboy.fillRect(0, menuY - 3, 128, 1);
   
-  int menuX = (128 / 2) - 10;
+  int menuX = (128 / 2) - ((menuitems[current].length() * 5) / 2);
   
   _arduboy.setCursor(menuX, menuY);
   _arduboy.print(menuitems[current]);
