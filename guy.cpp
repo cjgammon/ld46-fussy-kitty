@@ -71,11 +71,11 @@ void Guy::update() {
   if (currentMillis - previousMillis >= interval) {
 
     counter++;
-    if (counter == 60) {
+    if (counter == 60) { //60 - 1 min
       age = 1;
-    } else if (counter == 120) {
+    } else if (counter == 120) { //120 - 2 min
       age = 2;
-    } else if (counter == 300) {
+    } else if (counter == 300) { //300 - 5 min
       dead = true;
       _mood = 6;
       diedOfOldAge = true;
