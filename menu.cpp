@@ -40,7 +40,7 @@ void Menu::draw()
 {
   _arduboy.fillRect(0, menuY - 3, 128, 1);
   
-  int menuX = (128 / 2) - 20;
+  int menuX = (128 / 2) - 10;
   
   _arduboy.setCursor(menuX, menuY);
   _arduboy.print(menuitems[current]);
