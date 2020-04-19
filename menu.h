@@ -11,6 +11,7 @@ class Menu
   void next();
   void prev();
   int value();
+  
   private:
   Arduboy2 _arduboy;
 };

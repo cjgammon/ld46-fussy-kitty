@@ -11,10 +11,11 @@ class Guy
   void draw();
   void update();
   void apply(int action);
+  
   private:
   Arduboy2 _arduboy;
   int _mood = 0;
   int _exression;
-  void updateInterval(long currentMillis, long previousMillis, long interval, int value, int maxValue);
+  void checkMood();
 };
 #endif
