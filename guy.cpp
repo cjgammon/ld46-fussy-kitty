@@ -17,8 +17,8 @@ int secondCounter = 0;
 int age = 0;
 
 Property hunger = Property("HUNGRY", 10, 0, 5, 0, 1.0); //name, max, min, mid, value, inc
-Property boredom = Property("BORED", 10, 0, 5, 0, 0.5);
-Property sadness = Property("SAD", 10, 0, 5, 0, 0.25);
+Property boredom = Property("BORED", 10, 0, 5, 0, 0.6);
+Property sadness = Property("SAD", 10, 0, 5, 0, 0.3);
 Property annoyed = Property("ANNOYED", 50, 0, 5, 0, 0); //annoyed increases by other means..
 Property tiredness = Property("TIRED", 10, 0, 5, 0, 0.1);
 
