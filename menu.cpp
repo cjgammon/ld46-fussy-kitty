@@ -2,8 +2,8 @@
 #include <WString.h>
 #include "menu.h"
 
-const int menuitemcount = 9;
-const String menuitems[menuitemcount] = {"FEED", "PLAY", "PET", "JOKE", "TALK", "TEACH", "IGNORE", "VACCINATE", "BATHE"};
+const int menuitemcount = 10;
+const String menuitems[menuitemcount] = {"FEED", "PLAY", "PET", "NAP", "JOKE", "TALK", "TEACH", "IGNORE", "VACCINATE", "BATHE"};
 
 int menuY = 55;
 int current = 0;

@@ -17,6 +17,7 @@ version 2.1 of the License, or (at your option) any later version.
 #include "menu.h"
 
 Arduboy2 arduboy;
+BeepPin1 beep; // class instance for speaker pin 1
 
 int playerx = 5;
 int playery = 10;
@@ -28,12 +29,15 @@ int action = -1;
 
 void setup() {
   arduboy.begin();
+  beep.begin(); // set up the hardware for playing tones
   arduboy.setFrameRate(15);
 }
 
 void loop() {
   if (!(arduboy.nextFrame()))
     return;
+
+  beep.timer(); // handle tone duration
 
   arduboy.clear();
   arduboy.pollButtons();
@@ -47,6 +51,7 @@ void loop() {
   }
   
   if (arduboy.justPressed(A_BUTTON)) {
+    //beep.tone(beep.freq(1000), 100);
     action = _mainmenu.value();
     _character.apply(action);
   }

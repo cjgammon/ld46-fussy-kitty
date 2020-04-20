@@ -8,6 +8,7 @@ const String moods[moodCount] = {"HAPPY", "HUNGRY", "BORED", "SAD", "TIRED", "SI
 unsigned long previousMillis = 0;
 const long interval = 1000;
 
+bool sleeping = false;
 bool despair = false;
 bool dead = false;
 bool diedOfOldAge = false;
@@ -19,12 +20,14 @@ Property hunger = Property("HUNGRY", 10, 0, 5, 0, 1.0); //name, max, min, mid, v
 Property boredom = Property("BORED", 10, 0, 5, 0, 0.5);
 Property sadness = Property("SAD", 10, 0, 5, 0, 0.25);
 Property annoyed = Property("ANNOYED", 50, 0, 5, 0, 0); //annoyed increases by other means..
+Property tiredness = Property("TIRED", 10, 0, 5, 0, 0.1);
+
 //TODO tired/sleep
 
 Property death = Property("DEAD", 10, 0, 5, 0, 1);
 
-const int statusCount = 4;
-Property statuses[statusCount] = {hunger, boredom, sadness, annoyed};
+const int statusCount = 5;
+Property statuses[statusCount] = {hunger, boredom, sadness, annoyed, tiredness};
 
 Guy::Guy(Arduboy2 arduboy)
 {
@@ -32,7 +35,7 @@ Guy::Guy(Arduboy2 arduboy)
 }
 
 void Guy::draw() {
-  /*
+  
   _arduboy.setCursor(100, 0);
   _arduboy.print(death.value);
 
@@ -40,9 +43,13 @@ void Guy::draw() {
     _arduboy.setCursor(0, i * 10);
     _arduboy.print(statuses[i].value);
   }
-  */
-  _arduboy.setCursor(0, 40);
+  
+  _arduboy.setCursor(100, 40);
   _arduboy.print(moods[_mood]);
+
+  if (sleeping) {
+    _mood = 4;
+  }
 
   if (age < 1) {
       Sprites::drawOverwrite (48, 13, baby, _mood);
@@ -81,10 +88,22 @@ void Guy::update() {
       diedOfOldAge = true;
       return;
     }
-    
-    for (int i = 0; i < statusCount; i++) {
-      statuses[i].value += statuses[i].inc;
+
+    if (sleeping) {
+      if (statuses[4].value > statuses[4].min) {
+        statuses[4].value --;
+      } else {
+        statuses[4].value = statuses[4].min;
+        sleeping = false;
+      }
     }
+
+    if (!sleeping) {
+      for (int i = 0; i < statusCount; i++) {
+        statuses[i].value += statuses[i].inc;
+      }    
+    }
+
 
     if (despair) {
       death.value += death.inc;
@@ -136,6 +155,11 @@ void Guy::checkMood() {
 }
 
 void Guy::apply(int action) {
+  if (sleeping) {
+    sleeping = false;
+    statuses[3].value = statuses[3].mid + 1;
+    return;  
+  }
   
   if (action == 0) { //feed
     statuses[0].value = statuses[0].min;
@@ -163,7 +187,9 @@ void Guy::apply(int action) {
     } else {
       statuses[3].value ++;
     }
-    
+
+  } else if (action == 3) { //nap
+    sleeping = true;
   } else { // is annoying..
     statuses[3].value ++;
   }
