@@ -19,13 +19,12 @@ version 2.1 of the License, or (at your option) any later version.
 Arduboy2 arduboy;
 BeepPin1 beep; // class instance for speaker pin 1
 
-int playerx = 5;
-int playery = 10;
-
 Menu _mainmenu = Menu(arduboy);
 Guy _character = Guy(arduboy);
 
+int state = 0;
 int action = -1;
+
 
 void setup() {
   arduboy.begin();
@@ -42,6 +41,25 @@ void loop() {
   arduboy.clear();
   arduboy.pollButtons();
 
+  if (state == 0) {
+    menuUpdate();
+  } else {
+    gameUpdate();
+  }
+
+  arduboy.display();
+}
+
+void menuUpdate() {
+  Sprites::drawOverwrite (0, 0, title, 0);
+
+  if (arduboy.justPressed(A_BUTTON)) {
+    state = 1;
+  }
+}
+
+void gameUpdate() {
+  
   if(arduboy.justPressed(LEFT_BUTTON)) {
       _mainmenu.prev();
   }
@@ -55,11 +73,8 @@ void loop() {
     action = _mainmenu.value();
     _character.apply(action);
   }
-
+  
   _character.update();
-
   _character.draw();
   _mainmenu.draw();
-
-  arduboy.display();
 }

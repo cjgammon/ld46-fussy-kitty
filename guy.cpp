@@ -34,7 +34,7 @@ Guy::Guy(Arduboy2 arduboy)
 
 void Guy::draw() {
 
-  
+/*
   _arduboy.setCursor(100, 0);
   _arduboy.print(death.value);
 
@@ -42,9 +42,9 @@ void Guy::draw() {
     _arduboy.setCursor(0, i * 10);
     _arduboy.print(statuses[i].value);
   }
+*/
   
-  
-  _arduboy.setCursor(100, 40);
+  _arduboy.setCursor(0, 40);
   _arduboy.print(moods[_mood]);
 
   if (sleeping) {
