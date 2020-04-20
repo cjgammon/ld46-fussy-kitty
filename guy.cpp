@@ -13,7 +13,7 @@ bool despair = false;
 bool dead = false;
 bool diedOfOldAge = false;
 
-int counter = 0;
+int secondCounter = 0;
 int age = 0;
 
 Property hunger = Property("HUNGRY", 10, 0, 5, 0, 1.0); //name, max, min, mid, value, inc
@@ -21,8 +21,6 @@ Property boredom = Property("BORED", 10, 0, 5, 0, 0.5);
 Property sadness = Property("SAD", 10, 0, 5, 0, 0.25);
 Property annoyed = Property("ANNOYED", 50, 0, 5, 0, 0); //annoyed increases by other means..
 Property tiredness = Property("TIRED", 10, 0, 5, 0, 0.1);
-
-//TODO tired/sleep
 
 Property death = Property("DEAD", 10, 0, 5, 0, 1);
 
@@ -35,6 +33,7 @@ Guy::Guy(Arduboy2 arduboy)
 }
 
 void Guy::draw() {
+
   
   _arduboy.setCursor(100, 0);
   _arduboy.print(death.value);
@@ -44,11 +43,14 @@ void Guy::draw() {
     _arduboy.print(statuses[i].value);
   }
   
+  
   _arduboy.setCursor(100, 40);
   _arduboy.print(moods[_mood]);
 
   if (sleeping) {
     _mood = 4;
+    int sleepFrame = secondCounter % 2 == 0 ? 1 : 0;
+    Sprites::drawOverwrite (83, 5, sleep, sleepFrame);
   }
 
   if (age < 1) {
@@ -69,6 +71,7 @@ void Guy::draw() {
 }
 
 void Guy::update() {
+  
   if (dead) {
     return;
   }
@@ -77,12 +80,12 @@ void Guy::update() {
 
   if (currentMillis - previousMillis >= interval) {
 
-    counter++;
-    if (counter == 60) { //60 - 1 min
+    secondCounter++;
+    if (secondCounter == 60) { //60 - 1 min
       age = 1;
-    } else if (counter == 120) { //120 - 2 min
+    } else if (secondCounter == 120) { //120 - 2 min
       age = 2;
-    } else if (counter == 300) { //300 - 5 min
+    } else if (secondCounter == 300) { //300 - 5 min
       dead = true;
       _mood = 6;
       diedOfOldAge = true;
@@ -104,7 +107,6 @@ void Guy::update() {
       }    
     }
 
-
     if (despair) {
       death.value += death.inc;
     } else {
@@ -122,7 +124,7 @@ void Guy::checkMood() {
     int maxCount = 0;
     
     for (int i = 0; i < statusCount; i++) {
-      if (int(statuses[i].value) > statuses[i].mid) {
+      if (statuses[i].value > statuses[i].mid) {
         
         for (int j = 0; j < moodCount; j++) {
           if (statuses[i].name == moods[j]) {

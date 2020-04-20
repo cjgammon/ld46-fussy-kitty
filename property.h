@@ -7,11 +7,11 @@
 class Property
 {
   public:
-  Property(String _name, int _max, int _min, int mid, float _value, float _inc);
+  Property(String _name, int _max, int _min, float mid, float _value, float _inc);
   String name;
   int max;
   int min;
-  int mid;
+  float mid;
   float value;
   float inc;
   

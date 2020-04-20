@@ -1,6 +1,6 @@
 #include "property.h"
 
-Property::Property(String _name, int _max, int _min, int _mid, float _value, float _inc)
+Property::Property(String _name, int _max, int _min, float _mid, float _value, float _inc)
 {
   name = _name;
   max = _max;
