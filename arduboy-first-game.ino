@@ -8,7 +8,7 @@
 #include "music.h"
 
 Arduboy2 arduboy;
-ArduboyTones sound(arduboy.audio.enabled);
+//ArduboyTones sound(arduboy.audio.enabled);
 
 Menu _mainmenu = Menu(arduboy);
 Guy _character = Guy(arduboy);
@@ -21,7 +21,7 @@ void setup() {
   arduboy.begin();
   arduboy.setFrameRate(15);
 
-  sound.tones(score);
+  //sound.tones(score);
 }
 
 void loop() {
