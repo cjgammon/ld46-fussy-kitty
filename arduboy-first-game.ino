@@ -1,12 +1,14 @@
 
 
 #include <Arduboy2.h>
+#include <ArduboyTones.h>
 
 #include "guy.h"
 #include "menu.h"
+#include "music.h"
 
 Arduboy2 arduboy;
-BeepPin1 beep; // class instance for speaker pin 1
+ArduboyTones sound(arduboy.audio.enabled);
 
 Menu _mainmenu = Menu(arduboy);
 Guy _character = Guy(arduboy);
@@ -17,15 +19,14 @@ int action = -1;
 
 void setup() {
   arduboy.begin();
-  beep.begin(); // set up the hardware for playing tones
   arduboy.setFrameRate(15);
+
+  sound.tones(score);
 }
 
 void loop() {
   if (!(arduboy.nextFrame()))
     return;
-
-  beep.timer(); // handle tone duration
 
   arduboy.clear();
   arduboy.pollButtons();
